@@ -3,6 +3,8 @@ package application
 import (
 	"errors"
 
+	"github.com/google/uuid"
+
 	"github.com/asaskevich/govalidator"
 )
 
@@ -30,6 +32,22 @@ type Product struct {
 	Name   string  `valid:"required"`
 	Price  float64 `valid:"float,optional"`
 	Status string  `valid:"required"`
+}
+
+func NewProduct(name string, price float64) (*Product, error) {
+	product := &Product{
+		ID:     uuid.NewString(),
+		Name:   name,
+		Price:  price,
+		Status: DISABLED,
+	}
+
+	_, error := product.IsValid()
+	if error != nil {
+		return nil, errors.New("the product is invalid: " + error.Error())
+	}
+
+	return product, nil
 }
 
 func (p *Product) IsValid() (bool, error) {

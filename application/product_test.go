@@ -3,71 +3,74 @@ package application_test
 import (
 	"testing"
 
-	"github.com/google/uuid"
 	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
 	"github.com/stretchr/testify/require"
 )
 
-func TestItShouldEnableProductWithValidPrice(t *testing.T) {
-	p := &application.Product{
-		ID:     uuid.NewString(),
-		Name:   "Product 1",
-		Price:  10,
-		Status: application.DISABLED,
-	}
+func TestItShouldCreateAValidProduct(t *testing.T) {
+	p, err := application.NewProduct("Product 1", 100)
+	require.Nil(t, err)
 
-	err := p.Enable()
+	valid, errValid := p.IsValid()
+
+	require.True(t, valid)
+	require.Nil(t, errValid)
+	require.Equal(t, "Product 1", p.Name)
+	require.Equal(t, 100.0, p.Price)
+	require.Equal(t, application.DISABLED, p.Status)
+
+}
+
+func TestItShouldEnableProductWithValidPrice(t *testing.T) {
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
+
+	err = p.Enable()
 
 	require.Nil(t, err)
 	require.Equal(t, application.ENABLED, p.GetStatus())
 }
 
 func TestItShouldNotEnableAProductWithPriceEqualsToZero(t *testing.T) {
-	p := &application.Product{
-		ID:     uuid.NewString(),
-		Name:   "Product 1",
-		Price:  0,
-		Status: application.DISABLED,
-	}
-	err := p.Enable()
+	p, err := application.NewProduct("Product 1", 0)
+	require.Nil(t, err)
+
+	err = p.Enable()
 
 	require.NotNil(t, err)
 	require.Equal(t, "the price must be greater than zero to enable the product", err.Error())
 }
 
 func TestItShouldDisableProductOnlyIfPriceIsequalZero(t *testing.T) {
-	p := &application.Product{
-		Name:   "Product 1",
-		Price:  0,
-		Status: application.ENABLED,
-	}
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
 
-	err := p.Disable()
+	p.Enable()
+	p.Price = 0
+
+	err = p.Disable()
 
 	require.Nil(t, err)
 	require.Equal(t, application.DISABLED, p.GetStatus())
 }
 
 func TestItShouldNotDisableProductIfPriceIsGreaterThanZero(t *testing.T) {
-	p := &application.Product{
-		Name:   "Product 1",
-		Price:  10,
-		Status: application.ENABLED,
-	}
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
 
-	err := p.Disable()
+	p.Enable()
+
+	err = p.Disable()
 
 	require.NotNil(t, err)
 	require.Equal(t, "the price must be equal to zero to disable the product", err.Error())
 }
 
 func TestItShouldReturnValidWhenProductIsValid(t *testing.T) {
-	p := &application.Product{
-		ID:     uuid.NewString(),
-		Name:   "Product 1",
-		Price:  10,
-		Status: application.ENABLED,
-	}
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
+
+	p.Enable()
 
 	valid, error := p.IsValid()
 
@@ -76,12 +79,10 @@ func TestItShouldReturnValidWhenProductIsValid(t *testing.T) {
 }
 
 func TestItShouldReturnValidWhenStatusIsEmpty(t *testing.T) {
-	p := &application.Product{
-		ID:     uuid.NewString(),
-		Name:   "Product 1",
-		Price:  10,
-		Status: "",
-	}
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
+
+	p.Status = ""
 
 	valid, error := p.IsValid()
 
@@ -92,11 +93,10 @@ func TestItShouldReturnValidWhenStatusIsEmpty(t *testing.T) {
 }
 
 func TestItShouldReturnInvalidWhenPriceIsLessThanZero(t *testing.T) {
-	p := &application.Product{
-		Name:   "Product 1",
-		Price:  -10,
-		Status: application.ENABLED,
-	}
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
+
+	p.Price = -1
 
 	valid, error := p.IsValid()
 
@@ -105,36 +105,23 @@ func TestItShouldReturnInvalidWhenPriceIsLessThanZero(t *testing.T) {
 }
 
 func TestItShouldReturnInvalidWhenNameIsEmpty(t *testing.T) {
-	p := &application.Product{
-		Name:   "",
-		Price:  10,
-		Status: application.ENABLED,
-	}
-
-	valid, error := p.IsValid()
-
-	require.False(t, valid)
-	require.Equal(t, "the name is required", error.Error())
+	p, err := application.NewProduct("", 10)
+	require.Equal(t, "the product is invalid: the name is required", err.Error())
+	require.Nil(t, p)
 }
 
 func TestItShouldReturnInvalidWhenNameIsNotSet(t *testing.T) {
-	p := &application.Product{
-		Price:  10,
-		Status: application.ENABLED,
-	}
-
-	valid, error := p.IsValid()
-
-	require.False(t, valid)
-	require.Equal(t, "the name is required", error.Error())
+	var name string
+	p, err := application.NewProduct(name, 10)
+	require.Equal(t, "the product is invalid: the name is required", err.Error())
+	require.Nil(t, p)
 }
 
 func TestItShouldReturnInvalidWhenStatusIsInvalid(t *testing.T) {
-	p := &application.Product{
-		Name:   "Product 1",
-		Price:  10,
-		Status: "Other status",
-	}
+	p, err := application.NewProduct("Product 1", 10)
+	require.Nil(t, err)
+
+	p.Status = "Other Status"
 
 	valid, error := p.IsValid()
 
