@@ -8,18 +8,10 @@
   </a>
 </p>
 
-> Projeto do curso de Arquitetura Hexagonal da Full Cycle.
+> PT: Projeto do curso de Arquitetura Hexagonal da Full Cycle.
+> EN: Hexagonal Architecture course project from Full Cycle.
 
 ### 🏠 [Homepage](https://plataforma.fullcycle.com.br/courses/3b8c4f2c-aff9-4399-a72a-ad879e5689a2/315/168/123/conteudos?capitulo=123&conteudo=6963)
-
-## Author
-
-👤 **Josenaldo de Oliveira Matos Filho**
-
-- Website: <https://josenaldo.github.io>
-- Twitter: [@josenaldomatos](https://twitter.com/josenaldomatos)
-- Github: [@josenaldo](https://github.com/josenaldo)
-- LinkedIn: [@josenaldo](https://linkedin.com/in/josenaldo)
 
 ## 📚 References
 
@@ -40,5 +32,14 @@ Copyright © 2024 [Josenaldo de Oliveira Matos Filho](https://github.com/josenal
 
 This project is [MIT](LICENSE) licensed.
 
+## Author
+
+👤 **Josenaldo de Oliveira Matos Filho**
+
+- Website: <https://josenaldo.github.io>
+- Twitter: [@josenaldomatos](https://twitter.com/josenaldomatos)
+- Github: [@josenaldo](https://github.com/josenaldo)
+- LinkedIn: [@josenaldo](https://linkedin.com/in/josenaldo)
+-
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
