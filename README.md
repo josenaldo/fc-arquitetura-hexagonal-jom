@@ -8,8 +8,7 @@
   </a>
 </p>
 
-> PT: Projeto do curso de Arquitetura Hexagonal da Full Cycle.
-> EN: Hexagonal Architecture course project from Full Cycle.
+> Hexagonal Architecture course project from Full Cycle.
 
 ### 🏠 [Homepage](https://plataforma.fullcycle.com.br/courses/3b8c4f2c-aff9-4399-a72a-ad879e5689a2/315/168/123/conteudos?capitulo=123&conteudo=6963)
 
@@ -35,6 +34,15 @@ docker exec -it appproduct bash
 - [Testify](https://github.com/stretchr/testify)
 - [Mockgen](https://github.com/uber-go/mock)
 
+## Comands used
+
+Command used to generate the mocks
+
+```sh
+mockgen -destination=application/mocks/application.go -source=application/product.go application
+```
+
+```sh
 ## Show your support
 
 Give a ⭐️ if this project helped you!
