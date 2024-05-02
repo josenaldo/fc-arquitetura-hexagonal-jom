@@ -13,6 +13,18 @@
 
 ### 🏠 [Homepage](https://plataforma.fullcycle.com.br/courses/3b8c4f2c-aff9-4399-a72a-ad879e5689a2/315/168/123/conteudos?capitulo=123&conteudo=6963)
 
+## Install
+
+```sh
+docekr compose up -d --build
+```
+
+## Usage
+
+```sh
+docker exec -it appproduct bash
+```
+
 ## 📚 References
 
 - [Arquitetura Hexagonal](https://blog.octo.com/en/hexagonal-architecture-three-principles-and-an-implementation-example/)
@@ -21,6 +33,7 @@
 - [Google UUID](https://github.com/google/uuid)
 - [Go Validator](https://github.com/asaskevich/govalidator)
 - [Testify](https://github.com/stretchr/testify)
+- [Mockgen](https://github.com/uber-go/mock)
 
 ## Show your support
 
