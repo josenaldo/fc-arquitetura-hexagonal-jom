@@ -36,13 +36,18 @@ docker exec -it appproduct bash
 
 ## Comands used
 
-Command used to generate the mocks
+Generate the mocks
 
 ```sh
 mockgen -destination=application/mocks/application.go -source=application/product.go application
 ```
 
+Execute tests
+
 ```sh
+go test ./...
+```
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!

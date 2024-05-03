@@ -30,17 +30,17 @@ func (s *ProductService) Create(name string, price float64) (ProductInterface, e
 		return nil, ErrRequiredProductName
 	}
 
-	product, error := NewProduct(name, price)
-	if error != nil {
-		return nil, error
+	product, err := NewProduct(name, price)
+	if err != nil {
+		return nil, err
 	}
 
-	_, error = s.Persistence.Save(product)
-	if error != nil {
-		return nil, error
+	productSaved, err := s.Persistence.Save(product)
+	if err != nil {
+		return nil, err
 	}
 
-	return product, nil
+	return productSaved, nil
 }
 
 func (s *ProductService) Enable(product ProductInterface) (ProductInterface, error) {
