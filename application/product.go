@@ -8,7 +8,7 @@ import (
 	"github.com/asaskevich/govalidator"
 )
 
-func inint() {
+func init() {
 	govalidator.SetFieldsRequiredByDefault(true)
 }
 
@@ -23,7 +23,7 @@ type ProductInterface interface {
 }
 
 type ProductServiceInterface interface {
-	Get() (ProductInterface, error)
+	Get(id string) (ProductInterface, error)
 	Create(name string, price float64) (ProductInterface, error)
 	Enable(product ProductInterface) (ProductInterface, error)
 	Disable(product ProductInterface) (ProductInterface, error)
@@ -102,7 +102,7 @@ func (p *Product) Enable() error {
 		return errors.New("the product must be valid to enable it: " + err.Error())
 	}
 
-	if p.Price > 0 && isValid && err == nil {
+	if p.Price > 0 && isValid {
 		p.Status = ENABLED
 		return nil
 	}

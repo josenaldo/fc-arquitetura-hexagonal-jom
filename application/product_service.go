@@ -12,6 +12,10 @@ var (
 	ErrRequiredProductName = errors.New("the name is required")
 )
 
+func NewProductService(persistence ProductPersistenceInterface) *ProductService {
+	return &ProductService{Persistence: persistence}
+}
+
 func (s *ProductService) Get(id string) (ProductInterface, error) {
 	product, error := s.Persistence.Get(id)
 	if error != nil {
