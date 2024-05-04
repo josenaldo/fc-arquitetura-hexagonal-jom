@@ -28,6 +28,29 @@ func TestItShouldGetSomeProduct(t *testing.T) {
 	require.Equal(t, product, result)
 }
 
+func TestItShouldReturnAllProducts(t *testing.T) {
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	product1 := mock_application.NewMockProductInterface(ctrl)
+	product2 := mock_application.NewMockProductInterface(ctrl)
+	persistence := mock_application.NewMockProductPersistenceInterface(ctrl)
+
+	persistence.EXPECT().GetAll().Return([]application.ProductInterface{product1, product2}, nil)
+
+	service := application.ProductService{
+		Persistence: persistence,
+	}
+
+	result, err := service.GetAll()
+	require.Nil(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, 2, len(result))
+	require.Equal(t, product1, result[0])
+	require.Equal(t, product2, result[1])
+}
+
 func TestItShouldReturnErrorWhenGetInexistentProduct(t *testing.T) {
 
 	ctrl := gomock.NewController(t)

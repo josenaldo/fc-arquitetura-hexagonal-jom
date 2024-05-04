@@ -46,6 +46,21 @@ func Run(service application.ProductServiceInterface, action string, productId s
 		}
 
 		result = fmt.Sprintf("Product %s has been disabled", disabled.GetName())
+	case "list":
+		products, err := service.GetAll()
+		if err != nil {
+			return result, err
+		}
+
+		for _, product := range products {
+			result += fmt.Sprintf(
+				"Product ID: %s\nName: %s\nPrice: %f\nStatus: %s\n\n",
+				product.GetID(),
+				product.GetName(),
+				product.GetPrice(),
+				product.GetStatus())
+		}
+
 	default:
 		product, err := service.Get(productId)
 		if err != nil {

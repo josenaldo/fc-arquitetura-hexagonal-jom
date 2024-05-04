@@ -50,6 +50,19 @@ func createProduct(db *sql.DB, product application.Product) {
 	stmt.Exec(product.ID, product.Name, product.Price, product.Status)
 }
 
+func TestItShouldGetAllProductsFromDb(t *testing.T) {
+	setup()
+	defer teardown()
+
+	productDb := db.NewProductDb(Db)
+	products, err := productDb.GetAll()
+
+	require.Nil(t, err)
+	require.NotNil(t, products)
+	require.Equal(t, 1, len(products))
+
+}
+
 func TestItShouldGetProductFromDb(t *testing.T) {
 	setup()
 	defer teardown()

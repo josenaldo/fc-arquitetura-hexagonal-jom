@@ -15,6 +15,28 @@ func NewProductDb(db *sql.DB) *ProductDb {
 	return &ProductDb{db: db}
 }
 
+func (p *ProductDb) GetAll() ([]application.ProductInterface, error) {
+	rows, err := p.db.Query("SELECT id, name, price, status FROM products")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var products []application.ProductInterface
+
+	for rows.Next() {
+		var product application.Product
+		err = rows.Scan(&product.ID, &product.Name, &product.Price, &product.Status)
+		if err != nil {
+			return nil, err
+		}
+		products = append(products, &product)
+	}
+
+	return products, nil
+}
+
 func (p *ProductDb) Get(id string) (application.ProductInterface, error) {
 	var product application.Product
 	smtp, err := p.db.Prepare("SELECT id, name, price, status FROM products WHERE id = ?")

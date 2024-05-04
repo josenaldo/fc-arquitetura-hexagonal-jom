@@ -221,6 +221,21 @@ func (mr *MockProductServiceInterfaceMockRecorder) Get(id any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockProductServiceInterface)(nil).Get), id)
 }
 
+// GetAll mocks base method.
+func (m *MockProductServiceInterface) GetAll() ([]application.ProductInterface, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAll")
+	ret0, _ := ret[0].([]application.ProductInterface)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAll indicates an expected call of GetAll.
+func (mr *MockProductServiceInterfaceMockRecorder) GetAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockProductServiceInterface)(nil).GetAll))
+}
+
 // MockProductReader is a mock of ProductReader interface.
 type MockProductReader struct {
 	ctrl     *gomock.Controller
@@ -257,6 +272,21 @@ func (m *MockProductReader) Get(id string) (application.ProductInterface, error)
 func (mr *MockProductReaderMockRecorder) Get(id any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockProductReader)(nil).Get), id)
+}
+
+// GetAll mocks base method.
+func (m *MockProductReader) GetAll() ([]application.ProductInterface, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAll")
+	ret0, _ := ret[0].([]application.ProductInterface)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAll indicates an expected call of GetAll.
+func (mr *MockProductReaderMockRecorder) GetAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockProductReader)(nil).GetAll))
 }
 
 // MockProductWriter is a mock of ProductWriter interface.
@@ -333,6 +363,21 @@ func (m *MockProductPersistenceInterface) Get(id string) (application.ProductInt
 func (mr *MockProductPersistenceInterfaceMockRecorder) Get(id any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockProductPersistenceInterface)(nil).Get), id)
+}
+
+// GetAll mocks base method.
+func (m *MockProductPersistenceInterface) GetAll() ([]application.ProductInterface, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAll")
+	ret0, _ := ret[0].([]application.ProductInterface)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAll indicates an expected call of GetAll.
+func (mr *MockProductPersistenceInterfaceMockRecorder) GetAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockProductPersistenceInterface)(nil).GetAll))
 }
 
 // Save mocks base method.

@@ -17,12 +17,21 @@ func NewProductService(persistence ProductPersistenceInterface) *ProductService 
 }
 
 func (s *ProductService) Get(id string) (ProductInterface, error) {
-	product, error := s.Persistence.Get(id)
-	if error != nil {
-		return nil, error
+	product, err := s.Persistence.Get(id)
+	if err != nil {
+		return nil, err
 	}
 
 	return product, nil
+}
+
+func (s *ProductService) GetAll() ([]ProductInterface, error) {
+	products, err := s.Persistence.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }
 
 func (s *ProductService) Create(name string, price float64) (ProductInterface, error) {

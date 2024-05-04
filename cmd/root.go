@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var db, _ = sql.Open("sqlite3", ":memory:")
+var db, _ = sql.Open("sqlite3", "sqlite.db")
 var productDb = dbAdapters.NewProductDb(db)
 var productService = application.NewProductService(productDb)
 

@@ -20,6 +20,7 @@ var (
 	product       *mock_application.MockProductInterface
 	service       *mock_application.MockProductServiceInterface
 	ctrl          *gomock.Controller
+	products      []application.ProductInterface
 )
 
 func setup(t *testing.T) {
@@ -30,11 +31,20 @@ func setup(t *testing.T) {
 	product.EXPECT().GetPrice().Return(productPrice).AnyTimes()
 	product.EXPECT().GetStatus().Return(productStatus).AnyTimes()
 
+	product2 := mock_application.NewMockProductInterface(ctrl)
+	product2.EXPECT().GetID().Return(uuid.New().String()).AnyTimes()
+	product2.EXPECT().GetName().Return("Product 2").AnyTimes()
+	product2.EXPECT().GetPrice().Return(20.0).AnyTimes()
+	product2.EXPECT().GetStatus().Return(application.ENABLED).AnyTimes()
+
+	products = []application.ProductInterface{product, product2}
+
 	service = mock_application.NewMockProductServiceInterface(ctrl)
 	service.EXPECT().Create(productName, productPrice).Return(product, nil).AnyTimes()
 	service.EXPECT().Get(productId).Return(product, nil).AnyTimes()
 	service.EXPECT().Enable(gomock.Any()).Return(product, nil).AnyTimes()
 	service.EXPECT().Disable(gomock.Any()).Return(product, nil).AnyTimes()
+	service.EXPECT().GetAll().Return(products, nil).AnyTimes()
 }
 
 func teardown() {
@@ -123,4 +133,24 @@ func TestItShouldGetProduct(t *testing.T) {
 	require.Equal(t, productName, product.GetName())
 	require.Equal(t, productPrice, product.GetPrice())
 	require.Equal(t, productStatus, product.GetStatus())
+}
+
+func TestItShouldGetAllProducts(t *testing.T) {
+	setup(t)
+	defer teardown()
+
+	resultExpected := ""
+	for _, p := range products {
+		resultExpected += fmt.Sprintf(
+			"Product ID: %s\nName: %s\nPrice: %f\nStatus: %s\n\n",
+			p.GetID(),
+			p.GetName(),
+			p.GetPrice(),
+			p.GetStatus())
+	}
+
+	result, err := cli.Run(service, "list", "", "", 0)
+
+	require.Nil(t, err)
+	require.Equal(t, resultExpected, result)
 }

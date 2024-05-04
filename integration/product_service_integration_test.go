@@ -13,6 +13,7 @@ import (
 var (
 	Db             *sql.DB
 	id1            string
+	id2            string
 	productService application.ProductServiceInterface
 )
 
@@ -23,10 +24,18 @@ func setup() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	product2, err := application.NewProduct("Product 2", 20.0)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	id1 = product1.GetID()
+	id2 = product2.GetID()
 
 	createTable(Db)
 	createProduct(Db, *product1)
+	createProduct(Db, *product2)
 
 	productDbAdapter := dbAdapters.NewProductDb(Db)
 	productService = application.NewProductService(productDbAdapter)
@@ -58,10 +67,10 @@ func TestItShouldCreateProduct(t *testing.T) {
 	setup()
 	defer teardown()
 
-	created, err := productService.Create("Product 1", 10.0)
+	created, err := productService.Create("Product 3", 10.0)
 	require.Nil(t, err)
 	require.NotNil(t, created)
-	require.Equal(t, "Product 1", created.GetName())
+	require.Equal(t, "Product 3", created.GetName())
 	require.Equal(t, 10.0, created.GetPrice())
 	require.Equal(t, application.DISABLED, created.GetStatus())
 
@@ -77,6 +86,22 @@ func TestItShouldGetProduct(t *testing.T) {
 	require.Equal(t, "Product 1", product.GetName())
 	require.Equal(t, 10.0, product.GetPrice())
 	require.Equal(t, application.DISABLED, product.GetStatus())
+}
+
+func TestItShouldGetAllProducts(t *testing.T) {
+	setup()
+	defer teardown()
+
+	products, err := productService.GetAll()
+	require.Nil(t, err)
+	require.NotNil(t, products)
+	require.Equal(t, 2, len(products))
+	require.Equal(t, "Product 1", products[0].GetName())
+	require.Equal(t, 10.0, products[0].GetPrice())
+	require.Equal(t, application.DISABLED, products[0].GetStatus())
+	require.Equal(t, "Product 2", products[1].GetName())
+	require.Equal(t, 20.0, products[1].GetPrice())
+	require.Equal(t, application.DISABLED, products[1].GetStatus())
 }
 
 func TestItShouldEnableProduct(t *testing.T) {

@@ -4,6 +4,9 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/adapters/cli"
 	"github.com/spf13/cobra"
 )
@@ -26,16 +29,20 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cli.Run(productService, action, productId, productName, productPrice)
+		result, err := cli.Run(productService, action, productId, productName, productPrice)
+		if err != nil {
+			log.Fatalf("Error: %s", err)
+		}
+		fmt.Println(result)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(cliCmd)
-	rootCmd.Flags().StringVarP(&action, "action", "a", "enabled", "Enable or disable a product")
-	rootCmd.Flags().StringVarP(&productId, "id", "i", "", "Product ID")
-	rootCmd.Flags().StringVarP(&productName, "name", "n", "", "Product name")
-	rootCmd.Flags().Float64VarP(&productPrice, "price", "p", 0.0, "Product price")
+	cliCmd.Flags().StringVarP(&action, "action", "a", "enabled", "Enable or disable a product")
+	cliCmd.Flags().StringVarP(&productId, "id", "i", "", "Product ID")
+	cliCmd.Flags().StringVarP(&productName, "name", "n", "", "Product name")
+	cliCmd.Flags().Float64VarP(&productPrice, "price", "p", 0.0, "Product price")
 
 	// Here you will define your flags and configuration settings.
 
