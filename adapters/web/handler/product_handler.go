@@ -60,3 +60,5 @@ func getProducts(service application.ProductServiceInterface) http.Handler {
 		json.NewEncoder(w).Encode(products)
 	})
 }
+
+
