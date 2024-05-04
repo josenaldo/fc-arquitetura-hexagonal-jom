@@ -12,7 +12,7 @@ package mock_application
 import (
 	reflect "reflect"
 
-	application "github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
+	application "github.com/josenaldo/fc-arquitetura-hexagonal-jom/application"
 	gomock "go.uber.org/mock/gomock"
 )
 

@@ -3,8 +3,8 @@ package application_test
 import (
 	"testing"
 
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
-	mock_application "github.com/josenaldo/fc-arquitetura-hexagobal-jom/application/mocks"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/application"
+	mock_application "github.com/josenaldo/fc-arquitetura-hexagonal-jom/application/mocks"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )

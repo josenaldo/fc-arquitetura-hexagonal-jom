@@ -5,8 +5,8 @@ import (
 	"log"
 	"testing"
 
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/adapters/db"
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/adapters/db"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/application"
 	"github.com/stretchr/testify/require"
 )
 

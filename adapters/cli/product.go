@@ -3,7 +3,7 @@ package cli
 import (
 	"fmt"
 
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/application"
 )
 
 func Run(service application.ProductServiceInterface, action string, productId string, productName string, price float64) (string, error) {

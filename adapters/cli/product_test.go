@@ -5,9 +5,9 @@ import (
 	testing "testing"
 
 	"github.com/google/uuid"
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/adapters/cli"
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
-	mock_application "github.com/josenaldo/fc-arquitetura-hexagobal-jom/application/mocks"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/adapters/cli"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/application"
+	mock_application "github.com/josenaldo/fc-arquitetura-hexagonal-jom/application/mocks"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )

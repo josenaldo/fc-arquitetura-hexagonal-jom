@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 
-	"github.com/josenaldo/fc-arquitetura-hexagobal-jom/application"
+	"github.com/josenaldo/fc-arquitetura-hexagonal-jom/application"
 	_ "github.com/mattn/go-sqlite3"
 )
 
