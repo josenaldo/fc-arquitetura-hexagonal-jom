@@ -1,7 +1,43 @@
+
+# Sending an invalid price
 POST http://localhost:9000/products
 Content-Type: application/json
 
 {
   "name": "Product 4",
+  "price": "xxxxxx"
+}
+
+###
+
+# Sending a negative price
+POST http://localhost:9000/products
+Content-Type: application/json
+
+{
+  "name": "Product 6",
+  "price": -100
+}
+
+
+###
+
+# Sending an empty name
+POST http://localhost:9000/products
+Content-Type: application/json
+
+{
+  "name": "",
+  "price": 100
+}
+
+###
+
+# Sending a valid product
+POST http://localhost:9000/products
+Content-Type: application/json
+
+{
+  "name": "Product 7",
   "price": 100
 }

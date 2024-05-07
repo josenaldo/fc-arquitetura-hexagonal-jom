@@ -22,6 +22,14 @@ func NewProductHandler(r *mux.Router, n *negroni.Negroni, service application.Pr
 	r.Handle("/products", n.With(
 		negroni.Wrap(createProduct(service)),
 	)).Methods("POST", "OPTIONS")
+
+	r.Handle("/products/{id}/enable", n.With(
+		negroni.Wrap(enableProduct(service)),
+	)).Methods("PUT", "OPTIONS")
+
+	r.Handle("/products/{id}/disable", n.With(
+		negroni.Wrap(disableProduct(service)),
+	)).Methods("PUT", "OPTIONS")
 }
 
 func getProduct(service application.ProductServiceInterface) http.Handler {
@@ -74,7 +82,7 @@ func createProduct(service application.ProductServiceInterface) http.Handler {
 		err := json.NewDecoder(r.Body).Decode(&productDto)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write(jsonError("Error decoding product"))
+			w.Write(jsonError("Error decoding product: " + err.Error()))
 			return
 		}
 
@@ -90,5 +98,53 @@ func createProduct(service application.ProductServiceInterface) http.Handler {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(created)
+	})
+}
+
+func enableProduct(service application.ProductServiceInterface) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		product, err := service.Get(id)
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte(err.Error()))
+		}
+
+		product, err = service.Enable(product)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(product)
+	})
+}
+
+func disableProduct(service application.ProductServiceInterface) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		product, err := service.Get(id)
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte(err.Error()))
+		}
+
+		product, err = service.Disable(product)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(product)
 	})
 }
